@@ -193,7 +193,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 78107675}
-  m_Mesh: {fileID: 703180782}
+  m_Mesh: {fileID: 461508193}
 --- !u!4 &78107678
 Transform:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d011f352c7f00764eb457275c33a76ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!43 &703180782
+--- !u!43 &461508193
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 801376306}
   - component: {fileID: 801376304}
   - component: {fileID: 801376305}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -584,7 +584,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 801376300}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -616,7 +616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startHuman: {fileID: 2017862362698335408, guid: 21820f7c94561694a8806e7593314703, type: 3}
   _distanceCheker: {fileID: 1816908431}
-  _fixationMaxDistance: 3
+  _fixationMaxDistance: 0.4
   _checkCollider: {fileID: 801376304}
 --- !u!1 &963194225
 GameObject:
@@ -727,7 +727,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1095286924}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

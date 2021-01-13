@@ -24,29 +24,42 @@ public class PlayerTower : MonoBehaviour
         {
             Tower collisionTower = human.GetComponentInParent<Tower>();
 
-            List<Human> collectedHumans = collisionTower.CollectHuman(_distanceCheker, _fixationMaxDistance);
-
-            if (collectedHumans != null)
+            if (collisionTower != null)
             {
-                InsertHuman(collectedHumans);
+                List<Human> collectedHumans = collisionTower.CollectHuman(_distanceCheker, _fixationMaxDistance);
+
+                if (collectedHumans != null)
+                {
+                    for (int i = collectedHumans.Count - 1; i >= 0; i--)
+                    {
+                        Human insertHuman = collectedHumans[i];
+                        InsertHuman(insertHuman);
+                        DisplaceCheckers(insertHuman);
+                    }
+                }
             }
         }
     }
 
-    private void InsertHuman(List<Human> collectedHumans)
+    private void InsertHuman(Human collectedHumans)
     {
-        for (int i = collectedHumans.Count - 1; i >= 0; i--)
-        {
-            Human insertHuman = collectedHumans[i];
-            _humans.Insert(0, insertHuman);
-            SetHumanPosition(insertHuman);
-        }
+        _humans.Insert(0, collectedHumans);
+        SetHumanPosition(collectedHumans);
     }
 
     private void SetHumanPosition(Human human)
     {
         human.transform.parent = transform;
-        human.transform.localPosition = new Vector3(0,human.transform.localPosition.y, 0);
+        human.transform.localPosition = new Vector3(0, human.transform.localPosition.y, 0);
         human.transform.localRotation = Quaternion.identity;
+    }
+
+    private void DisplaceCheckers(Human human)
+    {
+        float displaceScale = 1.5f;
+        Vector3 distanceCheckerNewPosition = _distanceCheker.position;
+        distanceCheckerNewPosition.y -= human.transform.localScale.y * displaceScale;
+        _distanceCheker.position = distanceCheckerNewPosition;
+        _checkCollider.center = _distanceCheker.localPosition;
     }
 }
