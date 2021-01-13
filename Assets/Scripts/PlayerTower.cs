@@ -37,6 +37,8 @@ public class PlayerTower : MonoBehaviour
                         DisplaceCheckers(insertHuman);
                     }
                 }
+
+                collisionTower.Break();
             }
         }
     }

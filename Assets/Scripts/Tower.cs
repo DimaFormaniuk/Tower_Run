@@ -32,7 +32,7 @@ public class Tower : MonoBehaviour
         }
     }
 
-    public List<Human> CollectHuman(Transform distanceCheker,float fixationMaxDistance)
+    public List<Human> CollectHuman(Transform distanceCheker, float fixationMaxDistance)
     {
         for (int i = 0; i < _humanInTower.Count; i++)
         {
@@ -55,5 +55,10 @@ public class Tower : MonoBehaviour
         Vector3 humanFixationPointY = new Vector3(0, humanFixationPoint.position.y, 0);
 
         return Vector3.Distance(distanceChecherY, humanFixationPointY);
+    }
+
+    public void Break()
+    {
+        Destroy(gameObject);
     }
 }

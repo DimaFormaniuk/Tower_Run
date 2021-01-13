@@ -23,7 +23,7 @@ public class PathFollower : MonoBehaviour
     {
         _distanceTravelled += Time.deltaTime * _speed;
 
-        Vector3 nextPoint = _pathCreator.path.GetPointAtDistance(_distanceTravelled, EndOfPathInstruction.Loop);
+        Vector3 nextPoint = _pathCreator.path.GetPointAtDistance(_distanceTravelled, EndOfPathInstruction.Stop);//.Loop
         nextPoint.y = transform.position.y;
 
         transform.LookAt(nextPoint);

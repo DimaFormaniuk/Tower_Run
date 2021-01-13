@@ -25,7 +25,7 @@ public class Jumper : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.TryGetComponent(out Road road))
+        if (collision.gameObject.TryGetComponent(out Road road))
         {
             _isGrounded = true;
         }
