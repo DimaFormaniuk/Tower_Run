@@ -31,4 +31,29 @@ public class Tower : MonoBehaviour
             spawnPoint = _humanInTower[i].FixationPoint.position;
         }
     }
+
+    public List<Human> CollectHuman(Transform distanceCheker,float fixationMaxDistance)
+    {
+        for (int i = 0; i < _humanInTower.Count; i++)
+        {
+            float distanceBetweenPoint = CheckDistanceY(distanceCheker, _humanInTower[i].FixationPoint.transform);
+
+            if (distanceBetweenPoint < fixationMaxDistance)
+            {
+                List<Human> collectionHumans = _humanInTower.GetRange(0, i + 1);
+                _humanInTower.RemoveRange(0, i + 1);
+                return collectionHumans;
+            }
+        }
+
+        return null;
+    }
+
+    private float CheckDistanceY(Transform distanceChecker, Transform humanFixationPoint)
+    {
+        Vector3 distanceChecherY = new Vector3(0, distanceChecker.position.y, 0);
+        Vector3 humanFixationPointY = new Vector3(0, humanFixationPoint.position.y, 0);
+
+        return Vector3.Distance(distanceChecherY, humanFixationPointY);
+    }
 }
