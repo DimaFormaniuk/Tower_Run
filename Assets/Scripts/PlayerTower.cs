@@ -16,6 +16,7 @@ public class PlayerTower : MonoBehaviour
         _humans = new List<Human>();
         Vector3 spawnPoint = transform.position;
         _humans.Add(Instantiate(_startHuman, spawnPoint, Quaternion.identity, transform));
+        _humans[0].Run();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -30,12 +31,16 @@ public class PlayerTower : MonoBehaviour
 
                 if (collectedHumans != null)
                 {
+                    _humans[0].StopRun();
+
                     for (int i = collectedHumans.Count - 1; i >= 0; i--)
                     {
                         Human insertHuman = collectedHumans[i];
                         InsertHuman(insertHuman);
                         DisplaceCheckers(insertHuman);
                     }
+
+                    _humans[0].Run();
                 }
 
                 collisionTower.Break();
