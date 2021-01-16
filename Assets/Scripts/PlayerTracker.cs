@@ -5,8 +5,11 @@ using UnityEngine;
 public class PlayerTracker : MonoBehaviour
 {
     [SerializeField] private PlayerTower _playerTower;
+    [SerializeField] private float _moveSpeed;
     [SerializeField] private Vector3 _offsetPosition;
     [SerializeField] private Vector3 _offsetRotation;
+
+    private Vector3 _targetOffsetPosition;
 
     private void OnEnable()
     {
@@ -20,7 +23,13 @@ public class PlayerTracker : MonoBehaviour
 
     private void Start()
     {
+        transform.localPosition = _playerTower.transform.position + _offsetPosition;
+    }
+
+    private void Update()
+    {
         UpdatePosition();
+        _offsetPosition = Vector3.MoveTowards(_offsetPosition, _targetOffsetPosition, _moveSpeed * Time.deltaTime);
     }
 
     private void UpdatePosition()
@@ -35,7 +44,7 @@ public class PlayerTracker : MonoBehaviour
 
     private void OnHumanAdded(int count)
     {
-        _offsetPosition += (Vector3.up + Vector3.back) * count;
+        _targetOffsetPosition = _offsetPosition + (Vector3.up + Vector3.back) * count;
         UpdatePosition();
     }
 }
