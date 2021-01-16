@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerTower : MonoBehaviour
 {
@@ -11,12 +12,15 @@ public class PlayerTower : MonoBehaviour
 
     private List<Human> _humans;
 
+    public event UnityAction<int> HumanAdded;
+
     private void Start()
     {
         _humans = new List<Human>();
         Vector3 spawnPoint = transform.position;
         _humans.Add(Instantiate(_startHuman, spawnPoint, Quaternion.identity, transform));
         _humans[0].Run();
+        HumanAdded?.Invoke(_humans.Count);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -40,6 +44,7 @@ public class PlayerTower : MonoBehaviour
                         DisplaceCheckers(insertHuman);
                     }
 
+                    HumanAdded?.Invoke(_humans.Count);
                     _humans[0].Run();
                 }
 
