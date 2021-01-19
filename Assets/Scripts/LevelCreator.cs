@@ -7,7 +7,11 @@ public class LevelCreator : MonoBehaviour
 {
     [SerializeField] private PathCreator _pathCreator;
     [SerializeField] private Tower _towerTemplate;
+    [SerializeField] private Amplifier _amplifierTemplate;
+    [SerializeField] private Obstacle _obstacleTemplate;
     [SerializeField] private int _humanTowerCount;
+    [SerializeField] private float _distanceToAmplifier;
+    [SerializeField] private float _distanceToObstacle;
 
     private void Start()
     {
@@ -28,6 +32,21 @@ public class LevelCreator : MonoBehaviour
             spawnPoint = _pathCreator.path.GetPointAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
 
             Instantiate(_towerTemplate, spawnPoint, Quaternion.identity);
+
+            GeneratorPrefab(distanceTravelled, _distanceToAmplifier, _amplifierTemplate.gameObject);
+
+            //if (Random.Range(0, 100) % 2 == 0)
+            //{
+            //    GeneratorPrefab(distanceTravelled, _distanceToObstacle, _obstacleTemplate.gameObject);
+            //}
         }
+    }
+
+    private void GeneratorPrefab(float distanceTravelled, float distanceToPrefab, GameObject prefab)
+    {
+        distanceTravelled += distanceToPrefab;
+        Vector3 spawnPoint = _pathCreator.path.GetPointAtDistance(distanceTravelled, EndOfPathInstruction.Stop);
+
+        Instantiate(prefab, spawnPoint, Quaternion.identity);
     }
 }

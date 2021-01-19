@@ -7,12 +7,19 @@ public class Tower : MonoBehaviour
     [SerializeField] private Vector2Int _humanInTowerRange;
     [SerializeField] private Human[] _humansTemplates;
 
+    [SerializeField] private float _bounceForce;
+    [SerializeField] private float _bounceRadius;
+
     private List<Human> _humanInTower;
+
+    public int HumanInTower => humanInTowerCount;
+
+    private int humanInTowerCount;
 
     private void Start()
     {
         _humanInTower = new List<Human>();
-        int humanInTowerCount = Random.Range(_humanInTowerRange.x, _humanInTowerRange.y);
+        humanInTowerCount = Random.Range(_humanInTowerRange.x, _humanInTowerRange.y);
         SpawnHumans(humanInTowerCount);
     }
 
@@ -29,6 +36,8 @@ public class Tower : MonoBehaviour
             _humanInTower[i].transform.localPosition = new Vector3(0, _humanInTower[i].transform.localPosition.y, 0);
 
             spawnPoint = _humanInTower[i].FixationPoint.position;
+
+            SomeAnimation(_humanInTower[i]);
         }
     }
 
@@ -41,7 +50,8 @@ public class Tower : MonoBehaviour
             if (distanceBetweenPoint < fixationMaxDistance)
             {
                 List<Human> collectionHumans = _humanInTower.GetRange(0, i + 1);
-                _humanInTower.RemoveRange(0, i + 1);
+                _humanInTower.RemoveRange(0, i + 1);                
+
                 return collectionHumans;
             }
         }
@@ -59,6 +69,31 @@ public class Tower : MonoBehaviour
 
     public void Break()
     {
+        for (int i = 0; i < _humanInTower.Count; i++)
+        {
+            Vector3 center = _humanInTower[i].transform.position;
+
+            if (Random.Range(0, 100) % 2 == 0)
+            {
+                center += Vector3.right;
+            }
+            else
+            if (Random.Range(0, 100) % 2 == 0)
+            {
+                center += Vector3.left;
+            }
+            _humanInTower[i].transform.parent = null;
+            _humanInTower[i].Bounce(_bounceForce, center, _bounceRadius);
+        }
+
         Destroy(gameObject);
+    }
+
+    private void SomeAnimation(Human human)
+    {
+        int n = Random.Range(0, 3);
+
+        human.Texting(n == 1);
+        human.Kicking(n == 2);
     }
 }

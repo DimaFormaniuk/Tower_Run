@@ -14,11 +14,15 @@ public class PlayerTower : MonoBehaviour
 
     public event UnityAction<int> HumanAdded;
 
+    private bool _obstacleBool;
+
     private void Start()
     {
         _humans = new List<Human>();
         Vector3 spawnPoint = transform.position;
+
         _humans.Add(Instantiate(_startHuman, spawnPoint, Quaternion.identity, transform));
+
         _humans[0].Run();
         HumanAdded?.Invoke(_humans.Count);
     }
@@ -41,7 +45,9 @@ public class PlayerTower : MonoBehaviour
                     {
                         Human insertHuman = collectedHumans[i];
                         InsertHuman(insertHuman);
-                        DisplaceCheckers(insertHuman);
+
+                        //DisplaceCheckers(insertHuman);
+                        DisplaceCheckers();
                     }
 
                     HumanAdded?.Invoke(_humans.Count);
@@ -74,4 +80,47 @@ public class PlayerTower : MonoBehaviour
         _distanceCheker.position = distanceCheckerNewPosition;
         _checkCollider.center = _distanceCheker.localPosition;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Obstacle obstacle))
+        {
+            _obstacleBool = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out Obstacle obstacle))
+        {
+            if (_obstacleBool == true)
+            {
+                DestroyHuman(obstacle.Value);
+                _obstacleBool = false;
+            }
+        }
+    }
+
+    private void DestroyHuman(int count)
+    {
+        _humans[0].StopRun();
+
+        for (int i = 0; i < count; i++)
+        {
+            Destroy(_humans[0].gameObject);
+            _humans.RemoveAt(0);
+        }
+
+        DisplaceCheckers(_humans[0]);
+
+        HumanAdded?.Invoke(_humans.Count);
+        _humans[0].Run();
+    }
+
+    private void DisplaceCheckers()
+    {
+        _distanceCheker.position = _humans[0].transform.position;
+        _checkCollider.center = _distanceCheker.localPosition;
+    }
+
 }

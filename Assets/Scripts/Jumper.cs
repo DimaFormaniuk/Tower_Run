@@ -8,9 +8,11 @@ public class Jumper : MonoBehaviour
 
     private bool _isGrounded;
     private Rigidbody _rigidbody;
+    private float _multiplier;
 
     private void Start()
     {
+        _multiplier = 1;
         _rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -19,7 +21,7 @@ public class Jumper : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && _isGrounded == true)
         {
             _isGrounded = false;
-            _rigidbody.AddForce(Vector3.up * _jumpForce);
+            _rigidbody.AddForce(Vector3.up * _jumpForce * _multiplier);
         }
     }
 
@@ -28,6 +30,22 @@ public class Jumper : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out Road road))
         {
             _isGrounded = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Amplifier amplifier))
+        {
+            _multiplier = amplifier.Value;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out Amplifier amplifier))
+        {
+            _multiplier = 1;
         }
     }
 }
